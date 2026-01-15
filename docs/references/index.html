@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>References - CB Speeches Analysis</title>
+    <title>References - CB Speeches</title>
     <style>
-        :root { --primary: #1a5f7a; --accent: #f59e0b; --text: #1e293b; --bg: #f8fafc; }
+        :root { --primary: #1a5f7a; --text: #1e293b; --bg: #f8fafc; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); }
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        header { background: linear-gradient(135deg, var(--primary), #0f3d4c); color: white; padding: 30px 0; text-align: center; }
-        header h1 { font-size: 1.8rem; }
-        nav { background: white; padding: 15px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        nav a { margin: 0 15px; text-decoration: none; color: var(--primary); font-weight: 500; }
-        main { padding: 40px 0; }
-        .card { background: white; border-radius: 8px; padding: 30px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        h2 { color: var(--primary); margin-bottom: 15px; }
-        .ref { margin: 15px 0; padding: 15px; background: #f1f5f9; border-radius: 6px; }
+        body { font-family: system-ui, sans-serif; font-size: 12px; line-height: 1.4; color: var(--text); background: var(--bg); }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 12px; }
+        header { background: linear-gradient(135deg, var(--primary), #0f3d4c); color: white; padding: 14px 0; text-align: center; }
+        header h1 { font-size: 1.2rem; }
+        nav { background: white; padding: 6px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        nav a { margin: 0 8px; text-decoration: none; color: var(--primary); font-weight: 500; font-size: 0.85rem; }
+        main { padding: 14px 0; }
+        .card { background: white; border-radius: 4px; padding: 12px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        h2 { color: var(--primary); margin-bottom: 8px; font-size: 0.95rem; }
+        .ref { margin: 8px 0; padding: 8px; background: #f1f5f9; border-radius: 4px; font-size: 0.85rem; }
         .ref-title { font-weight: 600; }
-        .ref-authors { color: #666; }
-        .ref-link { color: var(--primary); }
-        footer { text-align: center; padding: 30px; color: #666; }
+        .ref-authors { color: #666; font-size: 0.8rem; }
+        .ref-link { color: var(--primary); font-size: 0.8rem; }
+        footer { text-align: center; padding: 14px; color: #666; font-size: 0.75rem; }
     </style>
 </head>
 <body>
@@ -35,48 +35,35 @@
     <main class="container">
         <div class="card">
             <h2>Key References</h2>
-
             <div class="ref">
                 <div class="ref-title">Central Bank Communication: A Review</div>
-                <div class="ref-authors">Blinder, A.S., Ehrmann, M., Fratzscher, M., De Haan, J., & Jansen, D.J. (2008)</div>
-                <div>Journal of Economic Literature, 46(4), 910-945</div>
+                <div class="ref-authors">Blinder et al. (2008) - J. Economic Literature 46(4)</div>
             </div>
-
             <div class="ref">
                 <div class="ref-title">The Power of Central Bank Speeches</div>
-                <div class="ref-authors">Ehrmann, M., & Fratzscher, M. (2007)</div>
-                <div>European Central Bank Working Paper Series No. 694</div>
+                <div class="ref-authors">Ehrmann & Fratzscher (2007) - ECB Working Paper 694</div>
             </div>
-
             <div class="ref">
                 <div class="ref-title">Optimal Changepoint Detection with Kernels</div>
-                <div class="ref-authors">Killick, R., Fearnhead, P., & Eckley, I.A. (2012)</div>
-                <div>Journal of the American Statistical Association, 107(500), 1590-1598</div>
+                <div class="ref-authors">Killick et al. (2012) - JASA 107(500)</div>
             </div>
-
             <div class="ref">
                 <div class="ref-title">Principal Component Analysis</div>
-                <div class="ref-authors">Jolliffe, I.T. (2002)</div>
-                <div>Springer Series in Statistics, 2nd Edition</div>
+                <div class="ref-authors">Jolliffe (2002) - Springer, 2nd Edition</div>
             </div>
         </div>
-
         <div class="card">
             <h2>Data Sources</h2>
-
             <div class="ref">
                 <div class="ref-title">FRED Economic Data</div>
-                <div class="ref-authors">Federal Reserve Bank of St. Louis</div>
-                <a href="https://fred.stlouisfed.org" class="ref-link">https://fred.stlouisfed.org</a>
+                <a href="https://fred.stlouisfed.org" class="ref-link">fred.stlouisfed.org</a>
             </div>
-
             <div class="ref">
                 <div class="ref-title">BIS Central Bank Speeches</div>
-                <div class="ref-authors">Bank for International Settlements</div>
-                <a href="https://www.bis.org/cbspeeches/" class="ref-link">https://www.bis.org/cbspeeches/</a>
+                <a href="https://www.bis.org/cbspeeches/" class="ref-link">bis.org/cbspeeches</a>
             </div>
         </div>
     </main>
-    <footer><p>CB Speeches Analysis | SNSF Grant IZCOZ0_213370</p></footer>
+    <footer>CB Speeches Analysis | SNSF Grant IZCOZ0_213370</footer>
 </body>
 </html>

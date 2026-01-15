@@ -3,287 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Analysis of Federal Reserve speech sentiment and macroeconomic conditions using PCA and structural break detection. Key finding: near-zero correlation (0.005) between CB speech sentiment and macro indices.">
-    <meta name="keywords" content="central bank, Federal Reserve, speech sentiment, PCA, structural breaks, monetary policy, narrative economics">
-    <meta name="author" content="SNSF Narrative Digital Finance Project">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="CB Speeches Analysis - Central Bank Speech Sentiment vs Macro Conditions">
-    <meta property="og:description" content="Analyzing the relationship between Federal Reserve speech sentiment and macroeconomic indices. Key finding: near-zero correlation (0.005).">
-    <meta property="og:url" content="https://digital-ai-finance.github.io/CB-Speeches-Analysis/">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="CB Speeches Analysis">
-    <meta name="twitter:description" content="PCA-based analysis of Federal Reserve speech sentiment vs macroeconomic conditions.">
+    <meta name="description" content="Analysis of Federal Reserve speech sentiment and macroeconomic conditions using PCA and structural break detection.">
     <title>CB Speeches Analysis</title>
     <style>
-        :root {
-            --primary: #1a5f7a;
-            --secondary: #c73e1d;
-            --accent: #f59e0b;
-            --text: #1e293b;
-            --bg: #f8fafc;
-            --card-bg: #fff;
-        }
+        :root { --primary: #1a5f7a; --secondary: #c73e1d; --accent: #f59e0b; --text: #1e293b; --bg: #f8fafc; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            color: var(--text);
-            background: var(--bg);
-        }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        header {
-            background: linear-gradient(135deg, var(--primary), #0f3d4c);
-            color: white;
-            padding: 50px 0;
-            text-align: center;
-        }
-        header h1 { font-size: 2rem; margin-bottom: 10px; font-weight: 700; }
-        header p { opacity: 0.9; font-size: 1rem; max-width: 700px; margin: 0 auto; }
-        .badge {
-            display: inline-block;
-            background: var(--accent);
-            color: #000;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin: 15px 5px 0;
-        }
-        nav {
-            background: var(--card-bg);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            padding: 15px 0;
-            flex-wrap: wrap;
-        }
-        nav a {
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 500;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
+        body { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; line-height: 1.4; color: var(--text); background: var(--bg); }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 12px; }
+        header { background: linear-gradient(135deg, var(--primary), #0f3d4c); color: white; padding: 16px 0; text-align: center; }
+        header h1 { font-size: 1.4rem; margin-bottom: 4px; }
+        header p { opacity: 0.9; font-size: 0.85rem; }
+        .badge { display: inline-block; background: var(--accent); color: #000; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: 600; margin: 8px 3px 0; }
+        nav { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        nav ul { list-style: none; display: flex; justify-content: center; gap: 4px; padding: 6px 0; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: var(--text); font-weight: 500; padding: 4px 10px; border-radius: 3px; font-size: 0.85rem; }
         nav a:hover { background: var(--bg); }
         nav a.active { color: var(--primary); font-weight: 600; }
-        main { padding: 40px 0; }
-        .card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-        h2 { color: var(--primary); margin-bottom: 20px; font-size: 1.4rem; }
-        h3 { margin: 20px 0 10px; font-size: 1.1rem; color: var(--primary); }
-        .btn {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: opacity 0.2s;
-            margin: 5px;
-        }
+        main { padding: 16px 0; }
+        .card { background: #fff; border-radius: 6px; padding: 14px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+        h2 { color: var(--primary); margin-bottom: 8px; font-size: 1rem; }
+        h3 { margin: 10px 0 6px; font-size: 0.9rem; color: var(--primary); }
+        .btn { display: inline-block; background: var(--primary); color: white; padding: 6px 14px; border-radius: 4px; text-decoration: none; font-weight: 500; font-size: 0.8rem; margin: 3px; }
         .btn:hover { opacity: 0.9; }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
+        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
         .btn-secondary { background: var(--secondary); }
         .btn-accent { background: var(--accent); color: #000; }
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        .result-card {
-            background: var(--bg);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .result-card .value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        .result-card .label {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 5px;
-        }
-        .highlight-box {
-            background: #fef3c7;
-            border-left: 4px solid var(--accent);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
-        .highlight-box h4 {
-            color: #92400e;
-            margin-bottom: 10px;
-        }
-        ul { margin-left: 20px; margin-bottom: 15px; }
-        li { margin: 8px 0; }
-        footer {
-            background: #1e293b;
-            color: white;
-            padding: 30px 0;
-            text-align: center;
-            margin-top: 40px;
-        }
+        .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0; }
+        .result-card { background: var(--bg); padding: 10px; border-radius: 4px; text-align: center; }
+        .result-card .value { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+        .result-card .label { font-size: 0.75rem; color: #666; }
+        .highlight-box { background: #fef3c7; border-left: 3px solid var(--accent); padding: 10px; margin: 10px 0; border-radius: 0 4px 4px 0; }
+        .highlight-box h4 { color: #92400e; margin-bottom: 4px; font-size: 0.85rem; }
+        ul { margin-left: 16px; margin-bottom: 8px; }
+        li { margin: 4px 0; }
+        footer { background: #1e293b; color: white; padding: 14px 0; text-align: center; margin-top: 16px; font-size: 0.8rem; }
         footer a { color: var(--accent); }
-        code {
-            background: #f1f5f9;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Consolas', monospace;
-            font-size: 0.9em;
-        }
-        pre {
-            background: #1e293b;
-            color: #e2e8f0;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 15px 0;
-        }
-        pre code {
-            background: none;
-            padding: 0;
-            color: inherit;
-        }
+        code { background: #f1f5f9; padding: 1px 4px; border-radius: 3px; font-family: monospace; font-size: 0.85em; }
+        pre { background: #1e293b; color: #e2e8f0; padding: 12px; border-radius: 4px; overflow-x: auto; margin: 8px 0; font-size: 0.8rem; }
+        pre code { background: none; padding: 0; color: inherit; }
+        @media (max-width: 600px) { .results-grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
             <h1>Central Bank Speeches Analysis</h1>
-            <p>Analyzing the relationship between Federal Reserve speech sentiment and macroeconomic indices using PCA, structural break detection, and rolling regression analysis.</p>
-            <span class="badge">SNSF Project</span>
-            <span class="badge">1996-2025</span>
-            <span class="badge">Open Source</span>
+            <p>Federal Reserve speech sentiment vs macroeconomic indices (PCA, PELT, rolling regression)</p>
+            <span class="badge">SNSF</span><span class="badge">1996-2025</span><span class="badge">Open Source</span>
         </div>
     </header>
-
-    <nav>
-        <ul>
-            <li><a href="index.html" class="active">Overview</a></li>
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="figures/index.html">Figures</a></li>
-            <li><a href="methodology/index.html">Methodology</a></li>
-            <li><a href="reproduce/index.html">Reproduce</a></li>
-            <li><a href="https://github.com/Digital-AI-Finance/CB-Speeches-Analysis">GitHub</a></li>
-        </ul>
-    </nav>
-
+    <nav><ul>
+        <li><a href="index.html" class="active">Overview</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="figures/index.html">Figures</a></li>
+        <li><a href="methodology/index.html">Methodology</a></li>
+        <li><a href="reproduce/index.html">Reproduce</a></li>
+        <li><a href="https://github.com/Digital-AI-Finance/CB-Speeches-Analysis">GitHub</a></li>
+    </ul></nav>
     <main class="container">
         <div class="card">
             <h2>Research Overview</h2>
-            <p>This research investigates whether Federal Reserve speech sentiment (hawkish vs. dovish) correlates with underlying macroeconomic conditions. Using 2,421 US Fed speeches from 1996-2025 and six FRED macroeconomic indicators, we construct PCA-based indices and analyze their relationship with speech sentiment.</p>
-
+            <p>Investigating whether Federal Reserve speech sentiment correlates with macroeconomic conditions using 2,421 US Fed speeches (1996-2025) and six FRED indicators.</p>
             <div class="highlight-box">
                 <h4>Key Finding</h4>
-                <p><strong>Near-zero correlation (0.005)</strong> between CB speech sentiment and macro indices - a significant empirical result challenging assumptions about central bank communication effectiveness and the narrative-driven policy transmission mechanism.</p>
+                <p><strong>Near-zero correlation (0.005)</strong> between CB speech sentiment and macro indices - challenging assumptions about central bank communication effectiveness.</p>
             </div>
         </div>
-
         <div class="card">
             <h2>Key Results</h2>
             <div class="results-grid">
-                <div class="result-card">
-                    <div class="value">0.005</div>
-                    <div class="label">Macro-Hawkish Correlation</div>
-                </div>
-                <div class="result-card">
-                    <div class="value">87%</div>
-                    <div class="label">Variance (3 PCs)</div>
-                </div>
-                <div class="result-card">
-                    <div class="value">2,421</div>
-                    <div class="label">US Fed Speeches</div>
-                </div>
-                <div class="result-card">
-                    <div class="value">-0.43</div>
-                    <div class="label">Hawkish Autocorr</div>
-                </div>
+                <div class="result-card"><div class="value">0.005</div><div class="label">Macro-Hawkish Corr</div></div>
+                <div class="result-card"><div class="value">87%</div><div class="label">Variance (3 PCs)</div></div>
+                <div class="result-card"><div class="value">2,421</div><div class="label">US Fed Speeches</div></div>
+                <div class="result-card"><div class="value">-0.43</div><div class="label">Hawkish Autocorr</div></div>
             </div>
         </div>
-
         <div class="card">
             <h2>Quick Start</h2>
-            <pre><code># Clone the repository
-git clone https://github.com/Digital-AI-Finance/CB-Speeches-Analysis.git
-cd CB-Speeches-Analysis
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the full analysis pipeline
+            <pre><code>git clone https://github.com/Digital-AI-Finance/CB-Speeches-Analysis.git
+cd CB-Speeches-Analysis && pip install -r requirements.txt
 python -c "from analysis.run_all import run_pipeline; run_pipeline()"
-
-# Generate all charts
-cd charts && python run_all_charts.py
-
-# Launch interactive dashboard
-streamlit run app.py</code></pre>
+cd charts && python run_all_charts.py</code></pre>
         </div>
-
         <div class="card">
             <h2>Methodology</h2>
             <h3>Data Sources</h3>
             <ul>
-                <li><strong>FRED Macroeconomic Data:</strong> Fed Funds Rate, CPI, PPI, GDP, Unemployment, Nonfarm Payrolls (1996-2025)</li>
-                <li><strong>CB Speeches:</strong> BIS/Gigando dataset with NER annotations and sentiment labels</li>
+                <li><strong>FRED:</strong> Fed Funds Rate, CPI, PPI, GDP, Unemployment, Nonfarm Payrolls</li>
+                <li><strong>Speeches:</strong> BIS/Gigando dataset with NER and sentiment labels</li>
             </ul>
-
-            <h3>Analysis Pipeline</h3>
+            <h3>Pipeline</h3>
             <ul>
-                <li><strong>PCA:</strong> Dimensionality reduction on 6 macro indicators to construct Macro Strength Index (PC1) and Inflation Index (PC2)</li>
-                <li><strong>PELT Algorithm:</strong> Structural break detection with RBF kernel (penalty=4)</li>
-                <li><strong>Rolling Regression:</strong> 36-month window beta and R-squared calculation</li>
-                <li><strong>Sentiment Aggregation:</strong> Monthly hawkish/dovish counts with 12-month rolling standardization</li>
+                <li><strong>PCA:</strong> 6 macro vars to PC1 (Macro Index) + PC2 (Inflation Index)</li>
+                <li><strong>PELT:</strong> Structural breaks with RBF kernel (penalty=4)</li>
+                <li><strong>Regression:</strong> 36-month rolling betas and R-squared</li>
             </ul>
         </div>
-
         <div class="card">
             <h2>Implications</h2>
             <ul>
-                <li><strong>Policy Independence:</strong> CB communication may be more forward-looking than reactive to current conditions</li>
-                <li><strong>Narrative Disconnect:</strong> Speech sentiment does not mirror macroeconomic reality in real-time</li>
-                <li><strong>Mean Reversion:</strong> Strong negative autocorrelation (-0.43) in hawkish sentiment suggests rapid narrative shifts</li>
-                <li><strong>Research Gap:</strong> Challenges assumptions about the effectiveness of narrative-driven policy transmission</li>
+                <li><strong>Policy Independence:</strong> CB communication may be forward-looking, not reactive</li>
+                <li><strong>Narrative Disconnect:</strong> Speech sentiment does not mirror macro reality</li>
+                <li><strong>Mean Reversion:</strong> Strong negative autocorrelation (-0.43) suggests rapid narrative shifts</li>
             </ul>
         </div>
-
         <div class="card" style="text-align: center;">
-            <h2>Resources</h2>
-            <a href="dashboard.html" class="btn btn-accent">Interactive Dashboard</a>
-            <a href="figures/index.html" class="btn">View Figures</a>
-            <a href="reproduce/index.html" class="btn btn-outline">Reproduce Analysis</a>
-            <a href="https://github.com/Digital-AI-Finance/CB-Speeches-Analysis" class="btn btn-secondary">GitHub Repository</a>
+            <a href="dashboard.html" class="btn btn-accent">Dashboard</a>
+            <a href="figures/index.html" class="btn">Figures</a>
+            <a href="reproduce/index.html" class="btn btn-outline">Reproduce</a>
+            <a href="https://github.com/Digital-AI-Finance/CB-Speeches-Analysis" class="btn btn-secondary">GitHub</a>
         </div>
     </main>
-
     <footer>
-        <div class="container">
-            <p>Part of the <a href="https://digital-ai-finance.github.io/Narrative-Digital-Finance/">Narrative Digital Finance</a> SNSF Research Project</p>
-            <p style="margin-top: 10px; opacity: 0.7;">SNSF Grant IZCOZ0_213370 | 2023-2026</p>
-        </div>
+        <p><a href="https://digital-ai-finance.github.io/Narrative-Digital-Finance/">Narrative Digital Finance</a> SNSF Project | Grant IZCOZ0_213370</p>
     </footer>
 </body>
 </html>
