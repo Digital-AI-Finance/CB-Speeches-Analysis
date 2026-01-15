@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive dashboard for Central Bank Speech Sentiment vs Macroeconomic Indices analysis">
+    <title>CB Speeches Analysis Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary: #0072B2;
+            --secondary: #D55E00;
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), #005a8c);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        header p { opacity: 0.9; }
+        .badge {
+            display: inline-block;
+            background: #f59e0b;
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 15px 5px 0;
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--bg-alt);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        .collapsible { display: block; }
+        .collapsed { display: none; }
+
+        .mermaid {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-alt);
+            font-weight: 600;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .chart-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .chart-card h3 {
+            background: var(--bg-alt);
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .chart-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: var(--bg-alt);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .highlight {
+            background: #fef3c7;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #f59e0b;
+            margin: 1rem 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        footer a { color: var(--primary); }
+
+        .toggle { font-size: 1.25rem; }
+
+        @media (max-width: 768px) {
+            .chart-grid { grid-template-columns: 1fr; }
+            main { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CB Speeches Analysis Dashboard</h1>
+        <p>Central Bank Speech Sentiment vs Macroeconomic Indices | Full Pipeline Results</p>
+        <span class="badge">SNSF Project</span>
+        <span class="badge">1996-2025</span>
+    </header>
+
+    <main>
+        <!-- Key Findings -->
+        <section>
+            <div class="section-header">
+                <h2>Key Finding</h2>
+            </div>
+            <div class="section-content">
+                <div class="highlight">
+                    <strong>Near-Zero Correlation:</strong> The correlation between central bank speech sentiment
+                    (hawkish/dovish) and macroeconomic indices is essentially zero (r = 0.005), indicating that
+                    speech sentiment does not systematically track or predict macroeconomic conditions.
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">0.005</div>
+                        <div class="stat-label">Macro-Hawkish Correlation</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">72%</div>
+                        <div class="stat-label">Variance (2 PCs)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Macro Breakpoints</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Inflation Breakpoints</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pipeline Architecture -->
+        <section>
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>Pipeline Architecture</h2>
+                <span class="toggle">+</span>
+            </div>
+            <div class="section-content collapsed">
+                <div class="mermaid">
+flowchart TB
+    subgraph Inputs["Input Data"]
+        A["macroeconomic_data.csv<br/>6 FRED Series"]
+        B["speeches.parquet<br/>197 MB, 20k speeches"]
+    end
+
+    subgraph Macro["Macro Analysis"]
+        C["Rolling Standardization<br/>12-month window"]
+        D["PCA Analysis<br/>6 vars to PC1, PC2"]
+        E["PELT Breakpoints<br/>penalty=4"]
+    end
+
+    subgraph Sentiment["Sentiment Analysis"]
+        F["Filter US Speeches<br/>2,421 Fed speeches"]
+        G["Monthly Aggregation<br/>hawkish/dovish counts"]
+    end
+
+    subgraph Integration["Integration"]
+        H["Rolling Regression<br/>36-month window"]
+        I["Correlation Analysis"]
+    end
+
+    A --> C --> D --> E
+    D --> H
+    B --> F --> G --> H
+    H --> I
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Flow -->
+        <section>
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>Data Flow</h2>
+                <span class="toggle">+</span>
+            </div>
+            <div class="section-content collapsed">
+                <div class="mermaid">
+flowchart LR
+    subgraph Raw["Raw Data"]
+        M1["macroeconomic_data.csv"]
+        S1["speeches.parquet"]
+    end
+
+    subgraph Processed["Processed"]
+        M2["processed_macro.csv"]
+        P1["pca_components.csv"]
+        P2["pca_loadings.csv"]
+        B1["breakpoints.json"]
+        S2["sentiment_aggregated.csv"]
+    end
+
+    subgraph Results["Results"]
+        R1["rolling_results_macro.csv"]
+        R2["rolling_results_inflation.csv"]
+        C1["correlation_matrix.csv"]
+    end
+
+    M1 --> M2 --> P1
+    M2 --> P2
+    P1 --> B1
+    S1 --> S2
+    P1 --> R1
+    S2 --> R1
+    P1 --> R2
+    S2 --> R2
+    R1 --> C1
+                </div>
+            </div>
+        </section>
+
+        <!-- FRED Series -->
+        <section>
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>Input Data: FRED Macroeconomic Series</h2>
+                <span class="toggle">+</span>
+            </div>
+            <div class="section-content collapsed">
+                <table>
+                    <thead>
+                        <tr><th>Series ID</th><th>Name</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>FEDFUNDS</td><td>FED Funds Rate</td><td>Federal funds effective rate (%)</td></tr>
+                        <tr><td>CPIAUCNS</td><td>CPI</td><td>Consumer Price Index for All Urban Consumers</td></tr>
+                        <tr><td>PPIACO</td><td>PPI</td><td>Producer Price Index for All Commodities</td></tr>
+                        <tr><td>GDP</td><td>GDP</td><td>Gross Domestic Product (billions)</td></tr>
+                        <tr><td>UNRATE</td><td>Unemployment</td><td>Unemployment Rate (%)</td></tr>
+                        <tr><td>PAYEMS</td><td>Nonfarm Payrolls</td><td>Total Nonfarm Employment (thousands)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PCA Results -->
+        <section>
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>PCA Variance Explained</h2>
+                <span class="toggle">+</span>
+            </div>
+            <div class="section-content collapsed">
+                <table>
+                    <thead>
+                        <tr><th>Component</th><th>Variance</th><th>Cumulative</th><th>Interpretation</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>PC1</td><td>48.6%</td><td>48.6%</td><td>Macro Strength Index</td></tr>
+                        <tr><td>PC2</td><td>23.2%</td><td>71.8%</td><td>Inflation Index</td></tr>
+                        <tr><td>PC3</td><td>15.4%</td><td>87.1%</td><td>-</td></tr>
+                        <tr><td>PC4-6</td><td>12.9%</td><td>100%</td><td>-</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Breakpoints -->
+        <section>
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>Detected Breakpoints (PELT Algorithm)</h2>
+                <span class="toggle">+</span>
+            </div>
+            <div class="section-content collapsed">
+                <h3>Macro Strength Index (8 breakpoints = 9 regimes)</h3>
+                <table>
+                    <thead><tr><th>#</th><th>Date</th><th>Economic Context</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>2001-01-01</td><td>-</td></tr><tr><td>2</td><td>2003-12-01</td><td>-</td></tr><tr><td>3</td><td>2007-04-01</td><td>-</td></tr><tr><td>4</td><td>2010-03-01</td><td>-</td></tr><tr><td>5</td><td>2016-11-01</td><td>-</td></tr><tr><td>6</td><td>2019-05-01</td><td>-</td></tr><tr><td>7</td><td>2021-06-01</td><td>-</td></tr><tr><td>8</td><td>2023-07-01</td><td>-</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 style="margin-top:1.5rem">Inflation Index (12 breakpoints = 13 regimes)</h3>
+                <table>
+                    <thead><tr><th>#</th><th>Date</th><th>Economic Context</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>1999-05-01</td><td>-</td></tr><tr><td>2</td><td>2001-06-01</td><td>-</td></tr><tr><td>3</td><td>2002-04-01</td><td>-</td></tr><tr><td>4</td><td>2004-05-01</td><td>-</td></tr><tr><td>5</td><td>2007-04-01</td><td>-</td></tr><tr><td>6</td><td>2008-07-01</td><td>-</td></tr><tr><td>7</td><td>2014-10-01</td><td>-</td></tr><tr><td>8</td><td>2016-06-01</td><td>-</td></tr><tr><td>9</td><td>2018-07-01</td><td>-</td></tr><tr><td>10</td><td>2020-08-01</td><td>-</td></tr><tr><td>11</td><td>2022-09-01</td><td>-</td></tr><tr><td>12</td><td>2023-12-01</td><td>-</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Charts -->
+        <section>
+            <div class="section-header">
+                <h2>All 12 Analysis Charts</h2>
+            </div>
+            <div class="section-content">
+                <div class="chart-grid">
+
+                    <div class="chart-card">
+                        <h3>Rolling-Standardized Macroeconomic Variables</h3>
+                        <img src="figures/01_scaled_macro_timeseries.png" alt="Rolling-Standardized Macroeconomic Variables" loading="lazy">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Principal Components (Macro & Inflation Indices)</h3>
+                        <img src="figures/02_principal_components.png" alt="Principal Components (Macro & Inflation Indices)" loading="lazy">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Macro Strength Index with Structural Breaks</h3>
+                        <img src="figures/03_macro_strength_breakpoints.png" alt="Macro Strength Index with Structural Breaks" loading="lazy">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Inflation Index with Structural Breaks</h3>
+                        <img src="figures/04_inflation_index_breakpoints.png" alt="Inflation Index with Structural Breaks" loading="lazy">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>US Federal Reserve Speech Volume</h3>
+                        <img src="figures/05_speech_count_distribution.png" alt="US Federal Reserve Speech Volume" loading="lazy">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Inflation Index vs CB Sentiment</h3>
+                        <img src="figures/06_inflation_sentiment_combined.png" alt="Inflation Index vs CB Sentiment" loading="lazy">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Rolling Betas: Sentiment vs Macro Index</h3>
+                        <img src="figures/07_rolling_betas_macro.png" alt="Rolling Betas: Sentiment vs Macro Index" loading="lazy">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Rolling R-squared: Sentiment vs Macro Index</h3>
+                        <img src="figures/08_rolling_r2_macro.png" alt="Rolling R-squared: Sentiment vs Macro Index" loading="lazy">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Rolling Betas: Sentiment vs Inflation Index</h3>
+                        <img src="figures/09_rolling_betas_inflation.png" alt="Rolling Betas: Sentiment vs Inflation Index" loading="lazy">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Rolling R-squared: Sentiment vs Inflation Index</h3>
+                        <img src="figures/10_rolling_r2_inflation.png" alt="Rolling R-squared: Sentiment vs Inflation Index" loading="lazy">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Correlation Matrix (First Differences)</h3>
+                        <img src="figures/11_correlation_matrix.png" alt="Correlation Matrix (First Differences)" loading="lazy">
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>PCA Loadings Heatmap</h3>
+                        <img src="figures/12_pca_loadings_heatmap.png" alt="PCA Loadings Heatmap" loading="lazy">
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Generated: 2026-01-15 18:55:12</p>
+        <p>CB Speeches Analysis Pipeline | Data: FRED, BIS</p>
+        <p style="margin-top: 10px;">
+            <a href="https://github.com/Digital-AI-Finance/CB-Speeches-Analysis">GitHub Repository</a> |
+            SNSF Grant IZCOZ0_213370
+        </p>
+    </footer>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const toggle = header.querySelector('.toggle');
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                toggle.textContent = '-';
+            } else {
+                content.classList.add('collapsed');
+                toggle.textContent = '+';
+            }
+        }
+    </script>
+</body>
+</html>
