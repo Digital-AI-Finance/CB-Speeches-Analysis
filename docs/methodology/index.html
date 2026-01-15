@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology - CB Speeches Analysis</title>
+    <style>
+        :root { --primary: #1a5f7a; --accent: #f59e0b; --text: #1e293b; --bg: #f8fafc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, var(--primary), #0f3d4c); color: white; padding: 30px 0; text-align: center; }
+        header h1 { font-size: 1.8rem; }
+        nav { background: white; padding: 15px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        nav a { margin: 0 15px; text-decoration: none; color: var(--primary); font-weight: 500; }
+        main { padding: 40px 0; }
+        .card { background: white; border-radius: 8px; padding: 30px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h2 { color: var(--primary); margin-bottom: 15px; }
+        h3 { margin: 20px 0 10px; color: var(--primary); }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; }
+        code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+        footer { text-align: center; padding: 30px; color: #666; }
+    </style>
+</head>
+<body>
+    <header><div class="container"><h1>Methodology</h1></div></header>
+    <nav>
+        <a href="../index.html">Overview</a>
+        <a href="../dashboard.html">Dashboard</a>
+        <a href="../figures/index.html">Figures</a>
+        <a href="index.html">Methodology</a>
+        <a href="../reproduce/index.html">Reproduce</a>
+    </nav>
+    <main class="container">
+        <div class="card">
+            <h2>Data Sources</h2>
+            <h3>FRED Macroeconomic Series</h3>
+            <table>
+                <tr><th>Series</th><th>Name</th><th>Description</th></tr>
+                <tr><td>FEDFUNDS</td><td>Fed Funds Rate</td><td>Federal funds effective rate (%)</td></tr>
+                <tr><td>CPIAUCNS</td><td>CPI</td><td>Consumer Price Index for All Urban Consumers</td></tr>
+                <tr><td>PPIACO</td><td>PPI</td><td>Producer Price Index for All Commodities</td></tr>
+                <tr><td>GDP</td><td>GDP</td><td>Gross Domestic Product (quarterly, forward-filled)</td></tr>
+                <tr><td>UNRATE</td><td>Unemployment</td><td>Unemployment Rate (%)</td></tr>
+                <tr><td>PAYEMS</td><td>Nonfarm Payrolls</td><td>Total Nonfarm Employment (thousands)</td></tr>
+            </table>
+            <h3>Speech Data</h3>
+            <p>2,421 US Federal Reserve speeches (1996-2025) from the BIS/Gigando dataset with pre-computed sentiment labels (hawkish/dovish/neutral).</p>
+        </div>
+
+        <div class="card">
+            <h2>Analysis Pipeline</h2>
+            <h3>Step 1: Rolling Standardization</h3>
+            <p>12-month rolling window z-score standardization applied to all macro indicators to ensure comparability and stationarity.</p>
+
+            <h3>Step 2: PCA Dimensionality Reduction</h3>
+            <p>Principal Component Analysis reduces 6 macro variables to interpretable indices:</p>
+            <table>
+                <tr><th>Component</th><th>Variance</th><th>Interpretation</th></tr>
+                <tr><td>PC1</td><td>48.6%</td><td>Macro Strength Index (Fed Rate, Payrolls +; Unemployment -)</td></tr>
+                <tr><td>PC2</td><td>23.2%</td><td>Inflation Index (CPI, PPI +; Fed Rate -)</td></tr>
+            </table>
+
+            <h3>Step 3: Structural Break Detection</h3>
+            <p>PELT (Pruned Exact Linear Time) algorithm with RBF kernel identifies structural breaks in PC1 and PC2. Penalty parameter = 4.</p>
+
+            <h3>Step 4: Sentiment Aggregation</h3>
+            <p>Monthly aggregation of hawkish/dovish speech counts, followed by 12-month rolling standardization.</p>
+
+            <h3>Step 5: Rolling Regression</h3>
+            <p>36-month rolling window OLS regression of sentiment on macro indices to capture time-varying relationships.</p>
+        </div>
+
+        <div class="card">
+            <h2>Key Parameters</h2>
+            <table>
+                <tr><th>Parameter</th><th>Value</th><th>Purpose</th></tr>
+                <tr><td><code>ROLLING_WINDOW</code></td><td>12</td><td>Months for standardization</td></tr>
+                <tr><td><code>REGRESSION_WINDOW</code></td><td>36</td><td>Months for rolling regression</td></tr>
+                <tr><td><code>PELT_PENALTY</code></td><td>4</td><td>Breakpoint detection sensitivity</td></tr>
+                <tr><td><code>RANDOM_STATE</code></td><td>42</td><td>Reproducibility seed</td></tr>
+            </table>
+        </div>
+    </main>
+    <footer><p>CB Speeches Analysis | SNSF Grant IZCOZ0_213370</p></footer>
+</body>
+</html>

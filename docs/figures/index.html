@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figures - CB Speeches Analysis</title>
+    <style>
+        :root { --primary: #1a5f7a; --accent: #f59e0b; --text: #1e293b; --bg: #f8fafc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, var(--primary), #0f3d4c); color: white; padding: 30px 0; text-align: center; }
+        header h1 { font-size: 1.8rem; }
+        nav { background: white; padding: 15px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        nav a { margin: 0 15px; text-decoration: none; color: var(--primary); font-weight: 500; }
+        .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 20px; margin-top: 30px; }
+        .chart-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .chart-card h3 { padding: 15px; background: #f1f5f9; font-size: 1rem; border-bottom: 1px solid #e2e8f0; }
+        .chart-card img { width: 100%; height: auto; display: block; }
+        footer { text-align: center; padding: 30px; color: #666; margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <header><div class="container"><h1>Analysis Figures</h1></div></header>
+    <nav>
+        <a href="../index.html">Overview</a>
+        <a href="../dashboard.html">Dashboard</a>
+        <a href="index.html">Figures</a>
+        <a href="../methodology/index.html">Methodology</a>
+        <a href="../reproduce/index.html">Reproduce</a>
+    </nav>
+    <main class="container">
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>1. Rolling-Standardized Macroeconomic Variables</h3>
+                <img src="01_scaled_macro_timeseries.png" alt="Scaled Macro Time Series">
+            </div>
+            <div class="chart-card">
+                <h3>2. Principal Components (Macro & Inflation Indices)</h3>
+                <img src="02_principal_components.png" alt="Principal Components">
+            </div>
+            <div class="chart-card">
+                <h3>3. Macro Strength Index with Structural Breaks</h3>
+                <img src="03_macro_strength_breakpoints.png" alt="Macro Breakpoints">
+            </div>
+            <div class="chart-card">
+                <h3>4. Inflation Index with Structural Breaks</h3>
+                <img src="04_inflation_index_breakpoints.png" alt="Inflation Breakpoints">
+            </div>
+            <div class="chart-card">
+                <h3>5. US Federal Reserve Speech Volume</h3>
+                <img src="05_speech_count_distribution.png" alt="Speech Distribution">
+            </div>
+            <div class="chart-card">
+                <h3>6. Inflation Index vs CB Sentiment</h3>
+                <img src="06_inflation_sentiment_combined.png" alt="Inflation vs Sentiment">
+            </div>
+            <div class="chart-card">
+                <h3>7. Rolling Betas: Sentiment vs Macro Index</h3>
+                <img src="07_rolling_betas_macro.png" alt="Rolling Betas Macro">
+            </div>
+            <div class="chart-card">
+                <h3>8. Rolling R-squared: Sentiment vs Macro Index</h3>
+                <img src="08_rolling_r2_macro.png" alt="Rolling R2 Macro">
+            </div>
+            <div class="chart-card">
+                <h3>9. Rolling Betas: Sentiment vs Inflation Index</h3>
+                <img src="09_rolling_betas_inflation.png" alt="Rolling Betas Inflation">
+            </div>
+            <div class="chart-card">
+                <h3>10. Rolling R-squared: Sentiment vs Inflation Index</h3>
+                <img src="10_rolling_r2_inflation.png" alt="Rolling R2 Inflation">
+            </div>
+            <div class="chart-card">
+                <h3>11. Correlation Matrix (First Differences)</h3>
+                <img src="11_correlation_matrix.png" alt="Correlation Matrix">
+            </div>
+            <div class="chart-card">
+                <h3>12. PCA Loadings Heatmap</h3>
+                <img src="12_pca_loadings_heatmap.png" alt="PCA Loadings">
+            </div>
+        </div>
+    </main>
+    <footer><p>CB Speeches Analysis | SNSF Grant IZCOZ0_213370</p></footer>
+</body>
+</html>
