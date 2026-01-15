@@ -12,9 +12,9 @@ apply_style()
 
 
 def main():
-    # Load speech data directly from parquet (not in data folder)
+    # Load speech data from data folder
     base_dir = Path(__file__).parent.parent.parent
-    speeches = pd.read_parquet(base_dir / 'gigando_speeches_ner_v2.parquet')
+    speeches = pd.read_parquet(base_dir / 'data' / 'gigando_speeches_ner_v2.parquet')
     speeches.set_index('datetime', inplace=True)
     speeches = speeches[speeches['country_code'] == 'US']
 
