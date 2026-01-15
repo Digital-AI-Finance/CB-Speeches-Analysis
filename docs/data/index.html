@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data - CB Speeches Analysis</title>
+    <style>
+        :root { --primary: #1a5f7a; --accent: #f59e0b; --text: #1e293b; --bg: #f8fafc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, var(--primary), #0f3d4c); color: white; padding: 30px 0; text-align: center; }
+        header h1 { font-size: 1.8rem; }
+        nav { background: white; padding: 15px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        nav a { margin: 0 15px; text-decoration: none; color: var(--primary); font-weight: 500; }
+        main { padding: 40px 0; }
+        .card { background: white; border-radius: 8px; padding: 30px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h2 { color: var(--primary); margin-bottom: 15px; }
+        h3 { margin: 20px 0 10px; color: var(--primary); }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; }
+        code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+        .btn { display: inline-block; background: var(--primary); color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; margin: 10px 5px 10px 0; }
+        .btn:hover { background: #0f3d4c; }
+        footer { text-align: center; padding: 30px; color: #666; }
+    </style>
+</head>
+<body>
+    <header><div class="container"><h1>Data</h1></div></header>
+    <nav>
+        <a href="../index.html">Overview</a>
+        <a href="../dashboard.html">Dashboard</a>
+        <a href="../figures/index.html">Figures</a>
+        <a href="../methodology/index.html">Methodology</a>
+        <a href="../reproduce/index.html">Reproduce</a>
+    </nav>
+    <main class="container">
+        <div class="card">
+            <h2>Data Access</h2>
+            <p>All data is available in the GitHub repository:</p>
+            <a href="https://github.com/Digital-AI-Finance/CB-Speeches-Analysis" class="btn">View Repository</a>
+        </div>
+
+        <div class="card">
+            <h2>Input Data</h2>
+            <table>
+                <tr><th>File</th><th>Description</th><th>Size</th></tr>
+                <tr><td><code>gigando_speeches_ner_v2.parquet</code></td><td>20k+ CB speeches with sentiment labels</td><td>197 MB</td></tr>
+                <tr><td><code>macroeconomic_data.csv</code></td><td>FRED macro series (1996-2025)</td><td>35 KB</td></tr>
+            </table>
+            <p><em>Note: The parquet file is stored using Git LFS.</em></p>
+        </div>
+
+        <div class="card">
+            <h2>Output Files</h2>
+            <table>
+                <tr><th>File</th><th>Description</th></tr>
+                <tr><td><code>pca_components.csv</code></td><td>PC1 (Macro Index), PC2 (Inflation Index)</td></tr>
+                <tr><td><code>pca_loadings.csv</code></td><td>Component weights on each macro variable</td></tr>
+                <tr><td><code>breakpoints.json</code></td><td>PELT-detected structural break dates</td></tr>
+                <tr><td><code>sentiment_aggregated.csv</code></td><td>Monthly hawkish/dovish counts</td></tr>
+                <tr><td><code>correlation_matrix.csv</code></td><td>First-difference correlations</td></tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Data Format</h2>
+            <h3>Speech Data Schema</h3>
+            <table>
+                <tr><th>Column</th><th>Type</th><th>Description</th></tr>
+                <tr><td><code>date</code></td><td>datetime</td><td>Speech date</td></tr>
+                <tr><td><code>central_bank</code></td><td>string</td><td>Central bank (filtered to US FED)</td></tr>
+                <tr><td><code>sentiment</code></td><td>string</td><td>hawkish / dovish / neutral</td></tr>
+                <tr><td><code>text</code></td><td>string</td><td>Full speech text</td></tr>
+            </table>
+        </div>
+    </main>
+    <footer><p>CB Speeches Analysis | SNSF Grant IZCOZ0_213370</p></footer>
+</body>
+</html>

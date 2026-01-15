@@ -12,8 +12,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 # Data directory relative to project root
-_PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
-DATA_DIR = _PROJECT_ROOT / "cb_speeches" / "data"
+_PROJECT_ROOT = Path(__file__).parent.parent.parent
+DATA_DIR = _PROJECT_ROOT / "data"
 
 
 def get_data_path(filename: str) -> Path:
@@ -68,7 +68,7 @@ def load_data(
     if not filepath.exists():
         raise FileNotFoundError(
             f"Data file not found: {filepath}\n"
-            f"Run the analysis pipeline first: python -m cb_speeches.analysis.run_all"
+            f"Run the analysis pipeline first: python -c \"from analysis.run_all import run_pipeline; run_pipeline()\""
         )
 
     try:
